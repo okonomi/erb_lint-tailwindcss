@@ -85,7 +85,7 @@ Rails などで使われる `.html.erb` テンプレート内の `class` 属性�
 
 1. `npm install prettier-plugin-tailwindcss@<固定バージョン>`
 2. Nodeスクリプトで `classOrder`, `variantOrder`, `arbitraryPropertyOrder` を抽出
-3. 抽出結果を YAML/JSON に変換し `lib/erb_lint-tailwindcss/support/order_table.json` に格納
+3. 抽出結果を YAML/JSON に変換し `lib/erb_lint/tailwindcss/support/order_table.json` に格納
 4. Gemに同梱してランタイムで読み込み
 5. 更新時は `rake update_order_table` タスクで再生成し、テストで正規性確認
 
@@ -107,18 +107,20 @@ erb_lint-tailwindcss/
 ├─ erb_lint-tailwindcss.gemspec
 ├─ Gemfile
 ├─ lib/
-│  ├─ erb_lint-tailwindcss.rb                  # エントリポイント
-│  ├─ erb_lint-tailwindcss/linters.rb          # まとめrequire
-│  ├─ erb_lint-tailwindcss/linters/
-│  │   └─ tailwind/
-│  │       ├─ class_order.rb
-│  │       ├─ duplicate.rb
-│  │       └─ unknown.rb
-│  ├─ erb_lint-tailwindcss/support/
-│  │   ├─ tokenizer.rb
-│  │   ├─ sorter.rb
-│  │   ├─ order_table.json
-│  │   └─ dictionary.rb
+│  ├─ erb_lint/
+│  │  └─ tailwindcss.rb                  # エントリポイント
+│  └─ erb_lint/tailwindcss/
+│      ├─ linters.rb          # まとめrequire
+│      ├─ linters/
+│      │   └─ tailwindcss/
+│      │       ├─ class_order.rb
+│      │       ├─ duplicate.rb
+│      │       └─ unknown.rb
+│      └─ support/
+│          ├─ tokenizer.rb
+│          ├─ sorter.rb
+│          ├─ order_table.json
+│          └─ dictionary.rb
 ├─ config/
 │  └─ tailwind.yml
 ├─ spec/

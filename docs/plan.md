@@ -3,7 +3,7 @@
 ## 1週目: 基盤整備とNode.js順序抽出システム
 ### Gem 雛形作成
 - **gemspec 更新**: `erb_lint` 依存関係追加、Node.js 実行環境設定
-- **ディレクトリ構成**: SOW準拠の `lib/erb_lint-tailwindcss/` 構造作成
+- **ディレクトリ構成**: SOW準拠の `lib/erb_lint/tailwindcss/` 構造作成
 
 ### Node.js 順序テーブル生成システム（重点強化）
 - **Node.js 環境構築**:
@@ -16,7 +16,7 @@
   - バリアント順序、ベースユーティリティ順序、重要度順序を解析
   
 - **Rubyコード生成**:
-  - 抽出した順序データを `lib/erb_lint-tailwindcss/order_table.rb` として生成
+  - 抽出した順序データを `lib/erb_lint/tailwindcss/support/order_table.rb` として生成
   - 正規表現パターンとウェイト値のハッシュ形式で出力
   - `TAILWIND_CLASS_ORDER` 定数として定義
 
