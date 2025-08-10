@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require_relative "tailwindcss/version"
+require_relative "tailwindcss/linters"
 
-module ErbLint
+module ERBLint
   module Tailwindcss
     class Error < StandardError; end
-    # Your code goes here...
   end
 end

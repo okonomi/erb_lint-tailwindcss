@@ -1,0 +1,18 @@
+# ERB Lint configuration for Tailwind CSS
+# This file provides recommended defaults for the erb_lint-tailwindcss gem
+
+linters:
+  Tailwind/ClassOrder:
+    enabled: true
+    order_preset: "tailwindcss-v4"
+    grouping: "flat"
+  
+  Tailwind/Duplicate:
+    enabled: true
+    dedupe_across_variants: false
+  
+  Tailwind/Unknown:
+    enabled: true
+    allow_arbitrary_values: true
+    safelist: []
+    plugins: []

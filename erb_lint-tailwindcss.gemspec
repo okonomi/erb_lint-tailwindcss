@@ -4,7 +4,7 @@ require_relative "lib/erb_lint/tailwindcss/version"
 
 Gem::Specification.new do |spec|
   spec.name = "erb_lint-tailwindcss"
-  spec.version = ErbLint::Tailwindcss::VERSION
+  spec.version = ERBLint::Tailwindcss::VERSION
   spec.authors = ["okonomi"]
   spec.email = ["okonomi@oknm.jp"]
 
@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.1.0"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/okonomi/erb_lint-tailwindcss"
