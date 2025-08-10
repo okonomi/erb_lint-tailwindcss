@@ -23,7 +23,7 @@ Rails などで使われる `.html.erb` テンプレート内の `class` 属性�
   * プラグインや safelist の拡張対応
 * **設定ファイル**
 
-  * `config/tailwind.yml` – 推奨設定
+  * `config/tailwindcss.yml` – 推奨設定
   * `.erb-lint.yml.example` – サンプル設定
 * **導入用スクリプト**
 
@@ -100,33 +100,30 @@ Rails などで使われる `.html.erb` テンプレート内の `class` 属性�
 
 ---
 
-## 6) ディレクトリ構成（例）
+## 6) ディレクトリ構成
 
 ```
 erb_lint-tailwindcss/
-├─ erb_lint-tailwindcss.gemspec
-├─ Gemfile
-├─ lib/
-│  ├─ erb_lint/
-│  │  └─ tailwindcss.rb                  # エントリポイント
-│  └─ erb_lint/tailwindcss/
-│      ├─ linters.rb          # まとめrequire
-│      ├─ linters/
-│      │   └─ tailwindcss/
-│      │       ├─ class_order.rb
-│      │       ├─ duplicate.rb
-│      │       └─ unknown.rb
-│      └─ support/
-│          ├─ tokenizer.rb
-│          ├─ sorter.rb
-│          ├─ order_table.json
-│          └─ dictionary.rb
-├─ config/
-│  └─ tailwind.yml
-├─ spec/
-│  └─ ...
-├─ .erb-lint.yml.example
-└─ README.md
+├── lib/
+│   └── erb_lint/
+│       ├── tailwindcss.rb       # エントリポイント
+│       └── tailwindcss/
+│           ├── version.rb       # バージョン管理
+│           ├── linters.rb       # まとめrequire（予定）
+│           ├── linters/         # 各リンター実装（予定）
+│           │   ├── class_order.rb
+│           │   ├── duplicate.rb
+│           │   └── unknown.rb
+│           └── support/         # 共通機能（予定）
+│               ├── tokenizer.rb
+│               ├── sorter.rb
+│               ├── order_table.json
+│               └── dictionary.rb
+├── scripts/                     # 補助スクリプト
+├── docs/                        # プロジェクト仕様書
+├── config/                      # 設定ファイル（予定）
+│   └── tailwindcss.yml
+└── .erb-lint.yml.example        # サンプル設定（予定）
 ```
 
 ---
@@ -135,12 +132,12 @@ erb_lint-tailwindcss/
 
 ```yaml
 inherit_gem:
-  erb_lint-tailwindcss: config/tailwind.yml
+  erb_lint-tailwindcss: config/tailwindcss.yml
 
 linters:
   Tailwind/ClassOrder:
     enabled: true
-    order_preset: "tailwind-v4"
+    order_preset: "tailwindcss-v4"
     grouping: "flat"
   Tailwind/Duplicate:
     enabled: true
