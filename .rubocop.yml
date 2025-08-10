@@ -1,8 +1,20 @@
 AllCops:
   TargetRubyVersion: 3.1
+  NewCops: enable
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+# Allow longer blocks in spec files and gemspec
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*_spec.rb"
+    - "*.gemspec"
+
+# Allow hyphenated file names for compatibility
+Naming/FileName:
+  Exclude:
+    - "lib/erb_lint-tailwindcss.rb"
