@@ -3,6 +3,7 @@
 require "erb_lint/tailwindcss/support/tokenizer"
 require "erb_lint/tailwindcss/support/sorter"
 require "erb_lint/tailwindcss/support/order_table"
+require "erb_lint/tailwindcss/support/dictionary"
 
 RSpec.describe "ERBLint::Tailwindcss::Support" do
   describe ERBLint::Tailwindcss::Support::Tokenizer do
@@ -38,6 +39,27 @@ RSpec.describe "ERBLint::Tailwindcss::Support" do
 
     it "can get variant weight" do
       expect(described_class.get_variant_weight("hover")).to be_a(Integer)
+    end
+  end
+
+  describe ERBLint::Tailwindcss::Support::Dictionary do
+    it "has known class and variant constants" do
+      expect(described_class::KNOWN_CLASSES).to be_a(Set)
+      expect(described_class::KNOWN_VARIANTS).to be_a(Set)
+    end
+
+    it "can check known variants" do
+      expect(described_class.known_variant?("hover")).to be true
+      expect(described_class.known_variant?("unknown")).to be false
+    end
+
+    it "can detect arbitrary values" do
+      expect(described_class.arbitrary_value?("w-[100px]")).to be true
+      expect(described_class.arbitrary_value?("w-10")).to be false
+    end
+
+    it "can check known classes" do
+      expect(described_class).to respond_to(:known_class?)
     end
   end
 end

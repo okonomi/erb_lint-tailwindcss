@@ -2,6 +2,7 @@
 
 require_relative "tokenizer"
 require_relative "order_table"
+require_relative "dictionary"
 
 module ERBLint
   module Tailwindcss

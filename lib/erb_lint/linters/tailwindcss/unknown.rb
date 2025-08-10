@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module ERBLint
-  module Tailwindcss
-    module Linters
+  module Linters
+    module Tailwindcss
       # Linter for detecting unknown/invalid Tailwind CSS classes
       # This linter identifies classes that are not valid Tailwind CSS utilities
       # and reports them as violations (detection only, no autocorrect).
