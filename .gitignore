@@ -9,3 +9,12 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Node.js dependencies and cache
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm/
+.node_repl_history
