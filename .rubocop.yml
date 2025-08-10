@@ -13,3 +13,20 @@ Metrics/BlockLength:
   Exclude:
     - "spec/**/*_spec.rb"
     - "*.gemspec"
+
+# Allow longer classes for auto-generated order table
+Metrics/ClassLength:
+  Exclude:
+    - "lib/erb_lint/tailwindcss/support/order_table.rb"
+
+# Allow longer methods for complex parsing logic
+Metrics/MethodLength:
+  Exclude:
+    - "lib/erb_lint/tailwindcss/support/tokenizer.rb"
+    - "lib/erb_lint/tailwindcss/support/sorter.rb"
+
+# Allow higher ABC size for parsing logic
+Metrics/AbcSize:
+  Exclude:
+    - "lib/erb_lint/tailwindcss/support/tokenizer.rb"
+    - "lib/erb_lint/tailwindcss/support/sorter.rb"

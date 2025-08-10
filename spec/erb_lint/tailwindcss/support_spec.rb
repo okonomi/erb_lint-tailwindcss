@@ -13,6 +13,62 @@ RSpec.describe "ERBLint::Tailwindcss::Support" do
 
     it "returns an empty array for empty input" do
       expect(described_class.tokenize("")).to eq([])
+      expect(described_class.tokenize("   ")).to eq([])
+      expect(described_class.tokenize(nil)).to eq([])
+    end
+
+    it "tokenizes simple classes" do
+      tokens = described_class.tokenize("p-4 bg-red-500")
+      expect(tokens.length).to eq(2)
+
+      expect(tokens[0].base).to eq("p-4")
+      expect(tokens[0].variants).to eq([])
+      expect(tokens[0].important).to be false
+
+      expect(tokens[1].base).to eq("bg-red-500")
+      expect(tokens[1].variants).to eq([])
+      expect(tokens[1].important).to be false
+    end
+
+    it "tokenizes classes with variants" do
+      tokens = described_class.tokenize("hover:bg-blue-500 lg:text-xl")
+      expect(tokens.length).to eq(2)
+
+      expect(tokens[0].base).to eq("bg-blue-500")
+      expect(tokens[0].variants).to eq(["hover"])
+
+      expect(tokens[1].base).to eq("text-xl")
+      expect(tokens[1].variants).to eq(["lg"])
+    end
+
+    it "tokenizes important classes" do
+      tokens = described_class.tokenize("!p-4 !important")
+      expect(tokens.length).to eq(2)
+
+      expect(tokens[0].base).to eq("p-4")
+      expect(tokens[0].important).to be true
+
+      expect(tokens[1].base).to eq("important")
+      expect(tokens[1].important).to be true
+    end
+
+    it "tokenizes complex classes with multiple variants" do
+      tokens = described_class.tokenize("dark:lg:hover:bg-gray-800")
+      expect(tokens.length).to eq(1)
+
+      expect(tokens[0].base).to eq("bg-gray-800")
+      expect(tokens[0].variants).to eq(%w[dark lg hover])
+    end
+
+    it "tokenizes arbitrary values" do
+      tokens = described_class.tokenize("w-[100px] text-[#ff0000]")
+      expect(tokens.length).to eq(2)
+
+      expect(tokens[0].base).to eq("w-[100px]")
+      expect(tokens[0].arbitrary).to eq("100px")
+
+      expect(tokens[1].base).to eq("text-[#ff0000]")
+      expect(tokens[1].arbitrary).to eq("#ff0000")
     end
   end
 
@@ -21,9 +77,35 @@ RSpec.describe "ERBLint::Tailwindcss::Support" do
       expect(described_class).to respond_to(:sort_classes)
     end
 
-    it "returns input classes unchanged (placeholder)" do
-      classes = %w[bg-red-500 p-4 text-white]
-      expect(described_class.sort_classes(classes)).to eq(classes)
+    it "sorts classes according to Tailwind order" do
+      classes = %w[bg-red-500 p-4 flex]
+      sorted = described_class.sort_classes(classes)
+
+      # flex (layout) should come before p-4 (spacing) and bg-red-500 (backgrounds)
+      expect(sorted.index("flex")).to be < sorted.index("p-4")
+      expect(sorted.index("p-4")).to be < sorted.index("bg-red-500")
+    end
+
+    it "sorts variants correctly" do
+      classes = %w[hover:bg-red-500 bg-red-500 lg:bg-red-500]
+      sorted = described_class.sort_classes(classes)
+
+      # Non-variant should come first
+      expect(sorted[0]).to eq("bg-red-500")
+    end
+
+    it "handles empty and nil inputs" do
+      expect(described_class.sort_classes([])).to eq([])
+      expect(described_class.sort_classes(nil)).to eq(nil)
+    end
+
+    it "compares individual classes" do
+      # flex comes before bg (layout vs backgrounds)
+      expect(described_class.compare_classes("flex", "bg-red-500")).to be < 0
+      expect(described_class.compare_classes("bg-red-500", "flex")).to be > 0
+
+      # Same class should be equal
+      expect(described_class.compare_classes("p-4", "p-4")).to eq(0)
     end
   end
 
