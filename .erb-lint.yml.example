@@ -1,0 +1,35 @@
+# Example ERB Lint configuration using erb_lint-tailwindcss
+# Copy this to .erb-lint.yml and customize as needed
+
+inherit_gem:
+  erb_lint-tailwindcss: config/tailwindcss.yml
+
+# Override specific linter settings if needed
+linters:
+  Tailwind/ClassOrder:
+    enabled: true
+    order_preset: "tailwindcss-v4"
+    grouping: "flat"
+  
+  Tailwind/Duplicate:
+    enabled: true
+    dedupe_across_variants: false
+  
+  Tailwind/Unknown:
+    enabled: true
+    allow_arbitrary_values: true
+    safelist:
+      - "container"
+      - "prose"
+      - "prose-sm"
+      - "prose-lg"
+    plugins:
+      - "@tailwindcss/typography"
+      - "@tailwindcss/forms"
+
+# Standard ERB Lint settings
+exclude:
+  - "app/views/admin/**/*.html.erb"
+  - "app/views/layouts/_*"
+
+enable_all_linters: false

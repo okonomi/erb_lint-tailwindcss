@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "erb_lint-tailwindcss/support/tokenizer"
-require "erb_lint-tailwindcss/support/sorter"
-require "erb_lint-tailwindcss/support/order_table"
+require "erb_lint/tailwindcss/support/tokenizer"
+require "erb_lint/tailwindcss/support/sorter"
+require "erb_lint/tailwindcss/support/order_table"
 
 RSpec.describe "ERBLint::Tailwindcss::Support" do
   describe ERBLint::Tailwindcss::Support::Tokenizer do

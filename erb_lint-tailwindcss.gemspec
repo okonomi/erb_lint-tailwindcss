@@ -4,7 +4,7 @@ require_relative "lib/erb_lint/tailwindcss/version"
 
 Gem::Specification.new do |spec|
   spec.name = "erb_lint-tailwindcss"
-  spec.version = ErbLint::Tailwindcss::VERSION
+  spec.version = ERBLint::Tailwindcss::VERSION
   spec.authors = ["okonomi"]
   spec.email = ["okonomi@oknm.jp"]
 

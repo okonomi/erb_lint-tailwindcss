@@ -13,8 +13,3 @@ Metrics/BlockLength:
   Exclude:
     - "spec/**/*_spec.rb"
     - "*.gemspec"
-
-# Allow hyphenated file names for compatibility
-Naming/FileName:
-  Exclude:
-    - "lib/erb_lint-tailwindcss.rb"

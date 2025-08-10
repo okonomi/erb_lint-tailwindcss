@@ -5,6 +5,7 @@ module ERBLint
     module Support
       # Order table containing Tailwind CSS class ordering rules
       # Generated from prettier-plugin-tailwindcss to ensure compatibility
+      # Will be populated from order_table.json when generated
       class OrderTable
         # This constant will be populated by the order extraction script
         TAILWIND_CLASS_ORDER = {
@@ -35,9 +36,9 @@ module ERBLint
             VARIANT_ORDER.fetch(variant, 1000)
           end
 
-          # Loads order data from the generated table
+          # Loads order data from the generated JSON file
           # This method will be called to update the constants with real data
-          def load_order_data(order_data)
+          def load_order_data(_order_data)
             # Implementation will be added when order extraction is ready
           end
         end

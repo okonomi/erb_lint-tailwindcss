@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe ErbLint::Tailwindcss do
+RSpec.describe ERBLint::Tailwindcss do
   it "has a version number" do
-    expect(ErbLint::Tailwindcss::VERSION).not_to be nil
+    expect(ERBLint::Tailwindcss::VERSION).not_to be nil
   end
 
   it "can be required without errors" do
@@ -10,7 +10,7 @@ RSpec.describe ErbLint::Tailwindcss do
   end
 
   it "defines the correct module hierarchy" do
-    expect(ErbLint::Tailwindcss).to be_a(Module)
-    expect(ErbLint::Tailwindcss::Error).to be < StandardError
+    expect(ERBLint::Tailwindcss).to be_a(Module)
+    expect(ERBLint::Tailwindcss::Error).to be < StandardError
   end
 end
