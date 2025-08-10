@@ -129,150 +129,34 @@ function generateSampleClasses() {
  * Test class sorting with prettier plugin
  */
 async function testClassSorting(classes) {
-  try {
-    // Try using prettier directly with the plugin - this is the most reliable approach
-    const prettier = await import('prettier');
-    const mockHtml = `<div class="${classes.join(' ')}">content</div>`;
-    
-    console.log('🔄 Attempting to sort classes using prettier with tailwindcss plugin...');
-    
-    const formatted = await prettier.format(mockHtml, {
-      parser: 'html',
-      plugins: ['prettier-plugin-tailwindcss'],
-      printWidth: 10000, // Prevent wrapping
-      htmlWhitespaceSensitivity: 'ignore',
-      bracketSameLine: true
-    });
-    
-    // Extract sorted classes from formatted HTML
-    const classMatch = formatted.match(/class="([^"]+)"/);
-    if (classMatch) {
-      const sortedClasses = classMatch[1].split(/\s+/).filter(cls => cls.length > 0);
-      console.log('✅ Successfully sorted classes using prettier-plugin-tailwindcss');
-      console.log(`📝 Original: ${classes.slice(0, 5).join(' ')}...`);
-      console.log(`📝 Sorted: ${sortedClasses.slice(0, 5).join(' ')}...`);
-      return sortedClasses;
-    }
-    
-  } catch (error) {
-    console.warn('⚠️  prettier-plugin-tailwindcss sorting failed:', error.message);
-    
-    // Try a simple test case to verify the plugin works
-    try {
-      const prettier = await import('prettier');
-      const testHtml = '<div class="p-4 bg-red-500 flex">test</div>';
-      const testFormatted = await prettier.format(testHtml, {
-        parser: 'html',
-        plugins: ['prettier-plugin-tailwindcss']
-      });
-      console.log('🧪 Plugin test result:', testFormatted.trim());
-    } catch (testError) {
-      console.warn('⚠️  Plugin test also failed:', testError.message);
-    }
+  // Try using prettier directly with the plugin - this is the most reliable approach
+  const prettier = await import('prettier');
+  const mockHtml = `<div class="${classes.join(' ')}">content</div>`;
+  
+  console.log('🔄 Attempting to sort classes using prettier with tailwindcss plugin...');
+  
+  const formatted = await prettier.format(mockHtml, {
+    parser: 'html',
+    plugins: ['prettier-plugin-tailwindcss'],
+    printWidth: 10000, // Prevent wrapping
+    htmlWhitespaceSensitivity: 'ignore',
+    bracketSameLine: true
+  });
+  
+  // Extract sorted classes from formatted HTML
+  const classMatch = formatted.match(/class="([^"]+)"/);
+  if (!classMatch) {
+    throw new Error('Failed to extract classes from formatted HTML');
   }
   
-  // Manual implementation based on Tailwind CSS ordering rules
-  console.log('⚠️  Falling back to manual sorting based on official Tailwind CSS patterns');
-  return sortClassesManually(classes);
+  const sortedClasses = classMatch[1].split(/\s+/).filter(cls => cls.length > 0);
+  console.log('✅ Successfully sorted classes using prettier-plugin-tailwindcss');
+  console.log(`📝 Original: ${classes.slice(0, 5).join(' ')}...`);
+  console.log(`📝 Sorted: ${sortedClasses.slice(0, 5).join(' ')}...`);
+  
+  return sortedClasses;
 }
 
-/**
- * Manual sorting implementation based on official Tailwind CSS order
- */
-function sortClassesManually(classes) {
-  // Define the official Tailwind CSS order groups
-  const orderGroups = [
-    // Layout
-    { pattern: /^(block|inline-block|inline|flex|inline-flex|table|inline-table|table-caption|table-cell|table-column|table-column-group|table-footer-group|table-header-group|table-row-group|table-row|flow-root|grid|inline-grid|contents|list-item|hidden)$/, weight: 0 },
-    
-    // Position
-    { pattern: /^(static|fixed|absolute|relative|sticky)$/, weight: 100 },
-    { pattern: /^(inset|top|right|bottom|left)-/, weight: 110 },
-    
-    // Visibility
-    { pattern: /^(invisible|visible)$/, weight: 200 },
-    
-    // Z-index
-    { pattern: /^z-/, weight: 250 },
-    
-    // Flexbox & Grid
-    { pattern: /^(flex-row|flex-row-reverse|flex-col|flex-col-reverse|flex-wrap|flex-wrap-reverse|flex-nowrap|flex-1|flex-auto|flex-initial|flex-none|grow|grow-0|shrink|shrink-0)$/, weight: 300 },
-    { pattern: /^(grid-cols|col-|grid-rows|row-|gap-)/, weight: 310 },
-    { pattern: /^(justify|items|content|self|place)/, weight: 320 },
-    { pattern: /^order-/, weight: 330 },
-    
-    // Spacing
-    { pattern: /^[pm][trblxy]?-/, weight: 400 },
-    
-    // Sizing
-    { pattern: /^(w|h|min-w|min-h|max-w|max-h)-/, weight: 500 },
-    
-    // Typography
-    { pattern: /^(font|text|leading|tracking|decoration)/, weight: 600 },
-    
-    // Backgrounds
-    { pattern: /^bg-/, weight: 700 },
-    
-    // Borders
-    { pattern: /^(border|rounded)/, weight: 800 },
-    
-    // Effects
-    { pattern: /^(shadow|opacity|mix|filter)/, weight: 900 }
-  ];
-  
-  // Sort classes based on manual rules
-  return classes.sort((a, b) => {
-    // Parse variants and base classes
-    const parseClass = (cls) => {
-      const important = cls.startsWith('!');
-      let workingClass = important ? cls.slice(1) : cls;
-      
-      const variants = [];
-      if (workingClass.includes(':')) {
-        const parts = workingClass.split(':');
-        if (parts.length > 1) {
-          variants.push(...parts.slice(0, -1));
-          workingClass = parts[parts.length - 1];
-        }
-      }
-      
-      return { variants, base: workingClass, important };
-    };
-    
-    const classA = parseClass(a);
-    const classB = parseClass(b);
-    
-    // Sort by variant count (fewer variants first)
-    if (classA.variants.length !== classB.variants.length) {
-      return classA.variants.length - classB.variants.length;
-    }
-    
-    // Sort by base class weight
-    const getWeight = (baseClass) => {
-      for (const group of orderGroups) {
-        if (group.pattern.test(baseClass)) {
-          return group.weight;
-        }
-      }
-      return 10000; // Unknown classes go last
-    };
-    
-    const weightA = getWeight(classA.base);
-    const weightB = getWeight(classB.base);
-    
-    if (weightA !== weightB) {
-      return weightA - weightB;
-    }
-    
-    // Sort by important flag (non-important first)
-    if (classA.important !== classB.important) {
-      return classA.important ? 1 : -1;
-    }
-    
-    // Sort alphabetically
-    return a.localeCompare(b);
-  });
-}
 
 /**
  * Extract order patterns from sorted results
