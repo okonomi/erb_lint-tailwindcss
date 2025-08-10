@@ -1,0 +1,34 @@
+{
+  "name": "erb_lint-tailwindcss",
+  "version": "0.1.0",
+  "description": "Development support for erb_lint-tailwindcss gem",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "extract-order": "node scripts/extract_order.mjs",
+    "test": "node scripts/test_nodejs.mjs"
+  },
+  "dependencies": {
+    "prettier-plugin-tailwindcss": "^0.6.14"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "erb",
+    "lint",
+    "tailwindcss",
+    "ruby",
+    "rails"
+  ],
+  "author": "okonomi <okonomi@oknm.jp>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okonomi/erb_lint-tailwindcss.git"
+  },
+  "homepage": "https://github.com/okonomi/erb_lint-tailwindcss",
+  "bugs": {
+    "url": "https://github.com/okonomi/erb_lint-tailwindcss/issues"
+  }
+}
