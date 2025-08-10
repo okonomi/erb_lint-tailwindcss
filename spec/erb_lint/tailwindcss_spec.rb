@@ -5,7 +5,12 @@ RSpec.describe ErbLint::Tailwindcss do
     expect(ErbLint::Tailwindcss::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "can be required without errors" do
+    expect { require "erb_lint/tailwindcss" }.not_to raise_error
+  end
+
+  it "defines the correct module hierarchy" do
+    expect(ErbLint::Tailwindcss).to be_a(Module)
+    expect(ErbLint::Tailwindcss::Error).to be < StandardError
   end
 end
